@@ -10,7 +10,7 @@ import android.widget.Toast;
  */
 public class AccessibilityUtil {
 
-    public static boolean checkAccessibility(Context context) {
+    static boolean checkAccessibility(Context context) {
         // 判断辅助功能是否开启
         if (!AccessibilityUtil.isAccessibilitySettingsOn(context)) {
             // 引导至辅助功能设置页面
@@ -24,7 +24,7 @@ public class AccessibilityUtil {
         return true;
     }
 
-    public static boolean isAccessibilitySettingsOn(Context context) {
+    private static boolean isAccessibilitySettingsOn(Context context) {
         int accessibilityEnabled = 0;
         try {
             accessibilityEnabled = Settings.Secure.getInt(context.getContentResolver(),

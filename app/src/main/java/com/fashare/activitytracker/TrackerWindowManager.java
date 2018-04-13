@@ -13,9 +13,9 @@ public class TrackerWindowManager {
     private final Context mContext;
     private final WindowManager mWindowManager;
 
-    public TrackerWindowManager(Context context) {
+    TrackerWindowManager(Context context) {
         mContext = context;
-        mWindowManager = (WindowManager)context.getSystemService(Context.WINDOW_SERVICE);
+        mWindowManager = (WindowManager) context.getSystemService(Context.WINDOW_SERVICE);
     }
 
     private View mFloatingView;
@@ -37,7 +37,7 @@ public class TrackerWindowManager {
     }
 
     public void addView() {
-        if(mFloatingView == null){
+        if (mFloatingView == null) {
             mFloatingView = new FloatingView(mContext);
             mFloatingView.setLayoutParams(LAYOUT_PARAMS);
 
@@ -45,8 +45,8 @@ public class TrackerWindowManager {
         }
     }
 
-    public void removeView(){
-        if(mFloatingView != null){
+    public void removeView() {
+        if (mFloatingView != null) {
             mWindowManager.removeView(mFloatingView);
             mFloatingView = null;
         }

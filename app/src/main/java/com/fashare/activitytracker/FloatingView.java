@@ -24,22 +24,20 @@ public class FloatingView extends LinearLayout {
     private final WindowManager mWindowManager;
     private TextView mTvPackageName;
     private TextView mTvClassName;
-    private ImageView mIvClose;
 
     public FloatingView(Context context) {
         super(context);
         mContext = context;
-        mWindowManager = (WindowManager)context.getSystemService(Context.WINDOW_SERVICE);
+        mWindowManager = (WindowManager) context.getSystemService(Context.WINDOW_SERVICE);
         initView();
     }
 
     private void initView() {
         inflate(mContext, R.layout.layout_floating, this);
-        mTvPackageName = (TextView) findViewById(R.id.tv_package_name);
-        mTvClassName = (TextView) findViewById(R.id.tv_class_name);
-        mIvClose = (ImageView) findViewById(R.id.iv_close);
+        mTvPackageName = findViewById(R.id.tv_package_name);
+        mTvClassName = findViewById(R.id.tv_class_name);
 
-        mIvClose.setOnClickListener(new OnClickListener() {
+        findViewById(R.id.iv_close).setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
                 Toast.makeText(mContext, "关闭悬浮框", Toast.LENGTH_SHORT).show();
@@ -63,16 +61,17 @@ public class FloatingView extends LinearLayout {
         EventBus.getDefault().unregister(this);
     }
 
-    public void onEventMainThread(TrackerService.ActivityChangedEvent event){
+    @SuppressWarnings("unused")
+    public void onEventMainThread(TrackerService.ActivityChangedEvent event) {
         Log.d(TAG, "event:" + event.getPackageName() + ": " + event.getClassName());
         String packageName = event.getPackageName(),
                 className = event.getClassName();
 
         mTvPackageName.setText(packageName);
         mTvClassName.setText(
-                className.startsWith(packageName)?
-                className.substring(packageName.length()):
-                className
+                className.startsWith(packageName) ?
+                        className.substring(packageName.length()) :
+                        className
         );
     }
 
@@ -80,13 +79,13 @@ public class FloatingView extends LinearLayout {
 
     @Override
     public boolean onTouchEvent(MotionEvent event) {
-        switch (event.getAction()){
+        switch (event.getAction()) {
             case MotionEvent.ACTION_DOWN:
-                preP = new Point((int)event.getRawX(), (int)event.getRawY());
+                preP = new Point((int) event.getRawX(), (int) event.getRawY());
                 break;
 
             case MotionEvent.ACTION_MOVE:
-                curP = new Point((int)event.getRawX(), (int)event.getRawY());
+                curP = new Point((int) event.getRawX(), (int) event.getRawY());
                 int dx = curP.x - preP.x,
                         dy = curP.y - preP.y;
 
@@ -97,8 +96,16 @@ public class FloatingView extends LinearLayout {
 
                 preP = curP;
                 break;
+            case MotionEvent.ACTION_UP:
+                performClick();
+                break;
         }
 
         return false;
+    }
+
+    @Override
+    public boolean performClick() {
+        return super.performClick();
     }
 }
